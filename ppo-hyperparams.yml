@@ -1,0 +1,20 @@
+Carla-v0:
+    n_envs: 1
+    learning_rate: lin_1e-4
+    n_timesteps: !!float 2e6
+    batch_size: 32
+    n_epochs: 10
+    gamma: 0.99
+    gae_lambda: 0.95
+    clip_range: 0.2
+    normalize_advantage: true
+    ent_coef: 0.01
+    vf_coef: 0.5
+    max_grad_norm: 0.5
+    use_sde: false
+    # policy for birdview sensor setup
+    policy: "CnnPolicy"
+    policy_kwargs: "dict(features_extractor_class=BaseResNetFeatureExtractor, features_extractor_kwargs=dict(features_dim=23))"
+    # policy for 4 camera + LiDAR sensor setup
+    # policy: "MultiInputPolicy"
+    # policy_kwargs: "dict(features_extractor_class=CustomFeatureExtractor, features_extractor_kwargs=dict(features_dim=23))"
