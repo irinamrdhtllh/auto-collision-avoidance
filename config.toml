@@ -1,0 +1,114 @@
+[carla]
+host = "localhost"
+timeout = 30.0
+timestep = 0.05
+retries_on_error = 30
+res_x = 512
+res_y = 512
+quality_level = "Epic"
+enable_map_assets = true
+enable_rendering = true
+show_display = true
+
+[experiment]
+mode = "train" # train | test
+weather = "ClearNoon"
+scenario = "straight" # straight | turn_right | turn_left
+crossroad_type = "signalized" # signalized | unsignalized
+traffic_comp = "low" # low | medium | high
+sensor_type = "birdview" # birdview | fourway_lidar
+action_type = "discrete" # discrete | continuous
+framestack = 4
+max_time_idle = 200
+max_time_episode = 5000
+
+[experiment.town]
+train = "Town05"
+test = "Town10HD_Opt"
+
+[experiment.traffic]
+n_danger_cars = 4
+n_other_cars = [50, 100, 150, 200]
+n_walkers = [100, 200, 300, 400]
+tm_hybrid_mode = false
+seed = true
+
+[experiment.traffic.danger_car_routes]
+train = [
+    [58, 136, 103, 66],  # east to west
+    [57, 135, 102, 65],
+    [101, 138, 60],  # west to east
+    [100, 137, 59],
+    [283, 140, 279, 115],  # north to south
+    [284, 142, 278, 114],
+    [253, 141, 280, 19],  # south to north
+    [260, 139, 281, 6],
+]
+test = [
+    [91, 0, 93, 53, 56],  # east to west
+    [94, 1, 101, 55, 57],
+    [51, 90, 96, 3],  # west to east
+    [52, 86, 77, 2],
+    [79, 104, 115, 67],  # north to south
+    [137, 103, 111, 95],
+    [110, 102, 116, 27],  # south to north
+    [89, 99, 108, 26],
+]
+
+[experiment.hero]
+model = "vehicle.dodge.charger_2020"
+cam_normalized = false
+cam_grayscale = false
+max_detected_actors = 10 # for fourway cam + LiDAR integration
+
+[experiment.hero.spawn_points]
+train = [[57, 58], [283, 284], [100, 101], [253, 260]]
+test = [[0, 1], [79, 137], [51, 52], [99, 102]]
+
+[experiment.hero.goal_points]
+train = [[137, 138], [280, 281], [102, 103], [140, 142]]
+test = [[86, 90], [108, 116], [53, 55], [104, 111]]
+
+[experiment.hero.goal_bounds]
+train = [[[-155, -145], [-6, 2]], [[-134, -125], [20, 30]], [[-105, -95], [1, 8]], [[-126, -117], [-25, -15]]]
+test = [[[-77, -67], [10, 20]], [[-53, -46], [43, 53]], [[-27, -17], [23, 30]], [[-46, -39], [-6, -16]]]
+
+[experiment.hero.sensors.fourway_lidar.front_cam]
+type = "sensor.camera.semantic_segmentation"
+image_size_x = 128
+image_size_y = 128
+transform = "0.5,0,1.65,0,-10,0"
+
+[experiment.hero.sensors.fourway_lidar.rear_cam]
+type = "sensor.camera.semantic_segmentation"
+image_size_x = 128
+image_size_y = 128
+transform = "-1.5,0,1.65,0,-10,180"
+
+[experiment.hero.sensors.fourway_lidar.left_cam]
+type = "sensor.camera.semantic_segmentation"
+image_size_x = 128
+image_size_y = 128
+transform = "-0.2,-0.5,1.65,0,-10,270"
+
+[experiment.hero.sensors.fourway_lidar.right_cam]
+type = "sensor.camera.semantic_segmentation"
+image_size_x = 128
+image_size_y = 128
+transform = "-0.2,0.5,1.65,0,-10,90"
+
+[experiment.hero.sensors.fourway_lidar.lidar]
+type = "sensor.lidar.ray_cast_semantic"
+range = 20
+
+[experiment.hero.sensors.fourway_lidar.collision]
+type = "sensor.other.collision"
+
+[experiment.hero.sensors.birdview.top_cam]
+type = "sensor.camera.semantic_segmentation"
+image_size_x = 128
+image_size_y = 128
+transform = "0,0,15,0,-90,0"
+
+[experiment.hero.sensors.birdview.collision]
+type = "sensor.other.collision"
